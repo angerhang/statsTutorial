@@ -1,0 +1,70 @@
+---
+title: "Data Import"
+output: html_document
+---
+
+Data importing is important. Although it can be done easily, sometimes it does give people a headache. We will be going through a few importing methods for several common data formats and talk about issues people might encounter.
+
+#### Preparation 
+Before you import your data set, you have to make sure that the data set is in your working directory. 
+```{r eval=FALSE}
+getwd()
+```
+tells you what is your working directory.
+```{r eval=FALSE}
+list.files()
+```
+will list the files available in your working directory.
+
+In case you want to change your directory, use 
+```{r eval=FALSE}
+setwd("~/Desktop/")
+# Set the working directory to your desktop
+```
+
+### Import Text 
+`read.table` function is usually used for reading data in `txt` format, and again we will want to know what kind of separation symbol a file has in order to import the data without any error. If you look at [text1.txt](https://angerhang.github.io/statsWithR/src/chaper1/text1.txt) and [text2.txt](https://angerhang.github.io/statsWithR/src/chaper1/text2.txt), you will find the separation  symbol of the first one is a space but the second has `;` as the delimiter. In this case we shall import them differently:
+```{r}
+setwd("~/angerhang.github.io/statsWithR/src/chaper1/")
+table1 <- read.table("text1.txt", header = T)
+print(table1)
+table2 <- read.table("text2.txt", sep = ";", header = T)
+print(table2)
+```
+When the data file does not contain a header, we should simply omit the `header` argument in the function call. The header will be automatically generated for you using `V1`, `V2`, `V3`...... [text3.txt](https://angerhang.github.io/statsWithR/src/chaper1/text3.txt) is such a file that has no header.
+```{r eval= FALSE}
+table3 <- read.table("text3.txt")
+```
+
+### Import Excel 
+There are two ways of importing an Excel with `.csv` extension, namely `read.csv()` and `read.csv2()`. The difference of these two is that for former one can properly import the Excel file that has comma `,` as the separator symbol, whereas, the latter can import the one that has semicolon `;` as the separator symbol.
+```{r eval=FALSE}
+test_csv = read.csv("test.csv")
+test_csv = read.csv2("test.csv")
+```
+
+### Import SPSS 
+When importing data in SPSS format having an extension of `sav`, we need to use the foreign package which comes with a set of commands that allows us to import data in different ways: 
+```{r, eval=FALSE}
+# install foreign package if you don't have it
+install.packages("foreign") 
+library(foreign)
+spss_data = read.spss("test", to.data.frame = TRUE)
+```
+
+### Import SAS
+```{r, eval=FALSE}
+library(sas7bdat)
+sas_data = read.sas7bdat("test.sas7bdat")
+```
+
+The best way to know about the separator symbol is to use a text editor such as Word or Pages to open up the data file you have before you import. Always remember to check your data set by using `str` which tells you much about your data set.
+```{r}
+str(table1)
+```
+And remember to check the header and the numbers of rows and columns because those are the places where things normally go wrong. (e.g. when you import a data set that has a header as if it doesn't, your data set will have an extra row of elements that are your original header.)
+
+
+
+### Reference
+Introduction to SAS.  UCLA: Statistical Consulting Group. from http://www.ats.ucla.edu/stat/r/ (accessed Feb 14, 2016).
