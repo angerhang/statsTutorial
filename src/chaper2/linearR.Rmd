@@ -1,0 +1,106 @@
+---
+title: "Regression Model I"
+runtime: shiny
+output: html_document
+---
+### Simple linear regression model 
+Simple linear regression gives us the power to analyze the relationship between two
+continuous variables for example, age and wages. In this tutorial, we will first create a naive regression model and then we look at the analysis output and interpret the intercept and slope. We then implement the linear regression model using a closed form approach in the second part of this regression tutorial. Typically a simple regression model has the form of
+$$ y = ax + b $$
+
+`x` is the independent variable and `y` is the dependent variable which changes as `x` changes. `a` and `b` are two coefficients. The former stands for slope which measures how `y` changes as `x` changes and the latter stands for the intercept, the `y` value when `x` is zero. 
+
+
+#### Variables setup
+We create two vector `x` and `y`. `x` consists the integers from 1 to 50 and `y` is three times `x`.
+```{r}
+x <- seq(1, 400, by=3) 
+x[1:10]
+y <- 3 * x
+y[1:10]
+```
+
+### Plot x and y
+Simple linear regression always gives a line that tries to fit the correlation between the dependent and independent variables. To demonstrate this, we create a third variable `z` which is equal to $x^2 + 3$. We have the scatter plot of `y vs x` and `z vs x` and fir the linear regression on these two pairs. It is not hard to see that the fit for `y vs x` is much better than the fit for `z vs x` as the red line's shape is much closer to the `y` `x` black dots.
+
+```{r}
+plot(x, y)
+abline(lm(y~x), col="red")
+z <- x^2 + 3
+points(x, z, col="blue")
+abline(lm(z~x), col="orange")
+```
+
+
+#### Linear regression for other functions
+Function1: $y = 2x$
+
+Function2: $y = log(x) + 2$
+
+Function3: $y = x^2$
+
+Function4: $y = x^3$
+
+Function5: $y = \frac{1}{x}$
+It is fun to select different functions and see how linear regression works on different sets of `x` and `y`. It's easy to see that linear regression fails to capture the shape of functions such as $1/x$ and $x^3$
+
+```{r, echo=FALSE}
+sliderInput("model_num", "Function to select:", min = 1, max = 5, value = 1)
+
+model1 <- 2 * x
+model2 <- log(x) + 2
+model3 <- x^2
+model4 <- x^3 
+model5 <- 1 / x
+models <- list(model1, model2, model3, model4, model5)
+
+renderPlot({
+plot(x,  unlist(models[input$model_num]))
+abline(lm(unlist(models[input$model_num])~x), col="blue")
+})
+```
+
+### How to run a simple regression
+In R we can just use `lm` function to run the linear regression. `y ~ x` means we want to the regression model when setting y as the dependent variable and x as the independent for simple linear regression.
+
+```{r}
+naive.lm <- lm(y ~ x)
+coeffs = coefficients(naive.lm)
+coeffs
+```
+After we get the model, we can predict the `y` values by plugging the `x` into our model. If we compare the `predictions` and the actual `y` values, they are identical. It means our model is fairly good at predicting.
+
+```{r}
+predictions = coeffs[1] + coeffs[2] * x
+predictions
+y
+```
+
+### Measure of model fitness
+As we have seen the regression for `z vs x` is not as good. Sometimes the goodness of the model might not be so easily to judge visually, so we need a way to quantitatively measure the fitness. We thus introduce the notion of least squares criterion should can be calculated as $$ Q = \sum_{i=1}^{n} (y_i - \bar{y_i})^2 $$ You may why don't we just use the summation of all the differences as the measure for fitness. The reason is when we do the subtraction, some differences might be negative and some differences might be positive. If we sum them up, the differences will balance out which cannot accurately reflect the fitness. But if we sum the square of the differences, all the differences regardless if they are positive or negative will contribute to this error term which makes sense. Because we want to have a error term that grows larger when there are more differences between the actual `y` and the predicted `y` values. Essentially linear regression looks for the best fit line which minimizes this error term.
+
+### Programming Assignments
+Based on the description for the least square criterion, calculate this value without using any packages for both the `y vs x` and `z vs x` pairs and compare the values. 
+
+```{r, echo=FALSE}
+actionButton("answerButton", "Show Solution")
+mainPanel(
+    textOutput("text1"),
+    textOutput("text2"),
+    textOutput("text3")
+)
+
+observeEvent(input$answerButton, {
+  output$text1 <- renderText({
+    "> predictions <- coeffs[1] + coeffs[2] "
+  })
+  output$text2 <- renderText({
+     "> difference <- y - predictions
+     > error <- difference * difference"
+  })
+   output$text3 <- renderText({
+     " > error <- difference * difference"
+  })
+})
+
+```
