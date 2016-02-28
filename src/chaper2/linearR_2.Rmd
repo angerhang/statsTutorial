@@ -1,0 +1,41 @@
+---
+title: "Simple Linear Regression Part 2"
+output: html_document
+bibliography: reference.bib
+nocite: |
+  @friedman2001elements
+---
+
+#### Put linear regression into vector form 
+After seeing how simple linear regression can be applied, in this tutorial, we want to dive into the math behind the scene. For the ease of computation, we want to put the inputs and coefficients into vector form. If we have `n` many subjects, each of which consists of `m` many variables. Thus we can denote each subject as $$ X_i = [X_{i1}, X_{i2}, \dots, X_{im}]$$ and the all the `n` inputs as a matrix of the form:
+$$ X = \begin{bmatrix}
+X_{11} & X_{12} &  \cdots & X_{1m} \\
+X_{21} & X_{22} & \cdots & X_{2m} \\
+\vdots & \vdots & \vdots & \vdots \\
+X_{n1} & X_{n2} & \cdots & X_{nm}
+\end{bmatrix}
+$$
+more compactly X can be written as:
+$$ X^T = [X_1, X_2, \dots, X_n]$$ 
+
+Recall the simple regression model that we have from last tutorial is $\ y = ax + b$. Now since we put all inputs into one matrix, our output will also have a length of `n`.
+$$ Y = b + \sum_{j=1}^{m}X_jA_j $$
+To make the notation simpler, we can put the constant `1` into X and `b` into vector `A` so that we have $$ Y = X^TA $$
+
+#### Find the best A that minilizes least square error  
+Recall we use 
+$$ Q = \sum_{i=1}^{n} (y_i - \bar{y_i})^2 $$ as the measure the fitness. Into order to minimizes this error term, one approach is to put this term as a function of A.
+$$ Q(A) = \sum_{i=1}^{n}(y_i - x_i^TA)^2 $$ which leads to
+$$ Q(A) = (y - XA)^T(y - XA) $$
+
+Since the error term is quadratic, it is easy to know that there exists a global minimum for Q. By differentiating Q(A) we can get the solution in a closed form 
+$$ X^T(y- XA) = 0 $$
+When $X^TX$ is non singular which means the determinant is not 0. A can be obtained by
+$$ A = (X^TX)^{-1}X^Ty $$
+
+The A values will be very close to what we get from running `lm()` function in the previous tutorial. 
+
+#### Programming Assignment 
+Try to implement this closed form solution for linear regression on your own. I can assure you that you will find it easier to understand when you start programming.
+
+#### Reference
