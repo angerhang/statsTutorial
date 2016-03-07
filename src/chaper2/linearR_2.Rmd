@@ -1,4 +1,5 @@
 ---
+layout: page
 title: "Simple Linear Regression Part 2"
 output: html_document
 bibliography: reference.bib
