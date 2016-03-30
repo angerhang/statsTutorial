@@ -1,0 +1,62 @@
+---
+title: "Analysis of variance: ANOVA"
+output: html_document
+---
+
+While we can use linear regression to quantitatively predict our dependent variable, we can also have nominal variable as our dependent variable, for which case we are also curious about the differences among groups. This section will first cover some basic concepts of analysis of variance (ANOVA) and we will apply this technique on a few examples.
+
+#### One way ANOVA
+```{r}
+group1 = c(2.3, 3.3, 3.2, 3.2, 3.2, 2.1, 2.0, 1.8, 0.4, 0.3)                
+group2 = c("Greater than 8", "Greater than 8", "Greater than 8", "Greater than 8", "Greater than 8", "Smaller than 8", "Smaller than 8", "Smaller than 8", "Smaller than 8", "Smaller than 8")
+data.table = cbind(group1,group2)   
+data.table = cbind(group1, group2)
+dimnames(data.table)=list("Patinet ID"=c("P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10"),"Vars"=c("Wellness","Sleep amount"))
+sleep <- data.frame(data.table)
+sleep$Wellness = as.numeric(levels(sleep$Wellness))[sleep$Wellness]
+sleep
+```
+Given a table above which contains two group of patients' recovery situation who got flu a week ago. The greater the values are, the better the patients feel. The amount of sleep that they get per day is the independent variable and the recovery situation is the dependent variable. In this design, the `between group factor` is the sleep beach one group only has more than 8 hours' sleep/day but the other gorp only has at most 8 hours' sleep/day. This design is also called one way ANOVA because there is only one classification variable, amount of sleep. If the F test for  If we were to consider whether they have been taking medicine or not, then our design will become a two-way ANOVA.
+```{r}
+group1 = c(2.3, 3.3, 3.2, 3.2, 3.2, 2.1, 2.0, 1.8, 0.4, 0.3)                
+group2 = c("Greater than 8", "Greater than 8", "Greater than 8", "Greater than 8", "Greater than 8", "Smaller than 8", "Smaller than 8", "Smaller than 8", "Smaller than 8", "Smaller than 8")
+data.table1 = cbind(group1,group2)   
+dimnames(data.table1)=list("Patinet ID"=c("P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10"),"Vars"=c("Wellness","Sleep amount"))
+group1 = c(2.3, 5.3, 4.2, 3.8, 4.2, 5.1, 4.0, 3.8, 2.4, 2.3)                
+group2 = c("Greater than 8", "Greater than 8", "Greater than 8", "Greater than 8", "Greater than 8", "Smaller than 8", "Smaller than 8", "Smaller than 8", "Smaller than 8", "Smaller than 8")
+data.table2 = cbind(group1,group2)   
+dimnames(data.table2)=list("Patinet ID"=c("P10", "P11", "P12", "P13","P14", "P15", "P16", "P17", "P18", "P19"),"Vars"=c("Wellness","Sleep amount"))
+```
+```{r}
+# Therapy: Has not taken any medicine
+data.table1 
+# Therapy: Has taken some medicine
+data.table2
+```
+
+### Interpretation of result result
+The impact of sleep and medicine will be called `main effects` and the interaction between these two will be called `interaction effect`. To make things easier, we just apply one way ANOVA on the first table we have. 
+In real world, when our data is too big for us to grapes the characteristics, we can apply some exploratory analysis on the data set just to get a feeling. The purpose of ANOVA here is to understand if the amount of sleep that one gets has an impact on his/her wellness.
+
+```{r}
+aggregate(sleep$Wellness, by=list(sleep$Sleep.amount), FUN=mean)
+```
+Easily we can tell that the wellness of the group that have more sleep feel better than the group that doesn't as much sleep.
+
+```{r}
+table(sleep)
+```
+Shows us the group sample sizes.
+
+```{r}
+fit <- aov(sleep$Wellness ~ sleep$Sleep.amount)
+summary(fit)
+```
+We can tell that the probability of getting F value 15.25 is smaller than 0.01 so that we can conclude having different amounts of sleep yields different wellness levels. 
+
+```{r}
+library(gplots)
+plotmeans(Wellness ~ Sleep.amount, data=sleep, main = "Mean plot with 95% confidence level", p = 0.95)
+```
+
+It is easier to see from the graph the difference between the group means at 95% confidence level. 
