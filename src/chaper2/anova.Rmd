@@ -34,7 +34,7 @@ data.table1
 data.table2
 ```
 
-### Interpretation of result result
+### Interpretations of test results
 The impact of sleep and medicine will be called `main effects` and the interaction between these two will be called `interaction effect`. To make things easier, we just apply one way ANOVA on the first table we have. 
 In real world, when our data is too big for us to grapes the characteristics, we can apply some exploratory analysis on the data set just to get a feeling. The purpose of ANOVA here is to understand if the amount of sleep that one gets has an impact on his/her wellness.
 

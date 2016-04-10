@@ -1,10 +1,11 @@
 ---
 title: "Text Mining"
 output: html_document
-bibliography: test.bib
+bibliography: stats.bib
 nocite: |
   @fridolinwild2015
   @meyer2008text
+  @yanchangzhao2015
 ---
 ## Overview
 More than 80% of today's data is stored in text, most of which is 
@@ -52,6 +53,13 @@ __Big Data with R__
 Nowadays we are facing with more and more data, we can still use some distributed computing frameworks to tackles those challenges. If you are interested, you can refer to two other tutorials on how to use R with [Hadoop](https://github.com/angerhang/hadoopAndR) and [Spark](http://angerhang.github.io/sparkR/intro) to allow you to deal with large data sets.
 
 In the following tutorials, we will do a series of text mining tasks using some the of packages above to gain a better understanding of what we can do with text mining and how we can do text mining in R.
+
+__Other helpful literature for text mining__
+
+* [Distributed Text Mining in R](http://epub.wu.ac.at/3034/)
+* [Text Data Mining with Twitter and R](https://heuristically.wordpress.com/2011/04/08/text-data-mining-twitter-r/)
+* [Text Mining Handbook](http://www.casact.org/pubs/forum/10spforum/Francis_Flynn.pdf)
+* [Introduction to the `tm` Package: Text Mining in R](https://cran.r-project.org/web/packages/tm/vignettes/tm.pdf)
 
 ##References
 
