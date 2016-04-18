@@ -1,0 +1,158 @@
+---
+title: "Introduction to Text Ming Package (TM)"
+output: html_document
+bibliography: stats.bib
+notice: |
+  @feinerer2015introduction
+  @meyer2008text
+---
+In this article, we present to you the usual workflow of using text mining packages, i.e., `TM` and `wordcloud`,
+and the text mining framework. We will analyze the word frequencies from different text files and eventually create a nice
+word cloud out of the shared words across documents and visualize the distribution of the frequent words.
+
+## Import data
+In this tutorial, we will be using [works](https://raw.githubusercontent.com/angerhang/statsTutorial/master/src/textMining/data/pg100.txt) by Shakespeare In order to have a better view of Corpus and word count matrix, we 
+divide the original text file into three and you can download them from [1.txt](https://raw.githubusercontent.com/angerhang/statsTutorial/master/src/textMining/data/1.txt), [2.txt](https://raw.githubusercontent.com/angerhang/statsTutorial/master/src/textMining/data/2.txt) and [3.txt](https://raw.githubusercontent.com/angerhang/statsTutorial/master/src/textMining/data/3.txt).
+
+Alternatively you can just run the following commands the download and store the files in a folder called `data`:
+```{r, eval=FALSE}
+library(RCurl)
+dir.create("data")
+setwd("data")
+url <- "https://raw.githubusercontent.com/angerhang/statsTutorial/master/src/textMining/data/1.txt"
+write(getURL(url), file = "1.txt")
+url <- "https://raw.githubusercontent.com/angerhang/statsTutorial/master/src/textMining/data/2.txt"
+write(getURL(url), file = "2.txt")
+url <- "https://raw.githubusercontent.com/angerhang/statsTutorial/master/src/textMining/data/3.txt"
+write(getURL(url), file = "3.txt")
+setwd("..")
+```
+`Corpus` the main structure that `tm` uses for storing and manipulating text documents. There are two types 
+VCorpus (Volatile Corpus) and PCorpus (Permanent Corpus), the main difference between these two implementations is that
+the former holds the documents as R objects in memory whereas the latter deals with documents that are stored outside of 
+R environment. There 
+
+When we are constructing our `Corpus` object, we need to provide a source and there are three types of such sources, `DirSource`, 
+`VectorSource` and `DataFrameSource`. We will use `DirSource` the import the three text files that we just downloaded and using `DirSource`
+is the only way to import files from the user system.
+```{r}
+library(tm)
+shakespeare <- VCorpus(DirSource("data", encoding = "UTF-8"))
+shakespeare
+```
+As we can see our Shakespeare corpus contains three documents. Just a side remark, if one wants to create an easy `Corpus` object, it is 
+easy to do via `VectorSrouce`.
+```{r}
+twoPhrases <- c("Phrase one ", "Phrase two")
+simpleCorpus <- VCorpus(VectorSource(twoPhrases))
+simpleCorpus
+```
+
+If you want to export the your `Corpus` for to used by other tools. Simply use
+```{r, eval=FALSE}
+writeCorpus(shakespeare)
+```
+which will output the documents to multiple files in the `Corpus` to the hard disk.
+
+## Corpus mainipulation 
+There are many methods we can use to play with `Corpus`. Each `Corpus` has its own meta data and each document in the `Corpus` also has one.
+```{r}
+meta(shakespeare[[1]])
+```
+One can see the document content and get an overview of one `Corpus` using
+```{r eval=FALSE}
+shakespeare[[1]]
+summary(shakespeare)
+```
+There are also other useful methods available such as `tmUpdate()` which checks the new files that do not exist yet and add those in and `inspect()` which gives a more detailed overview than `summary()`.
+
+## Cleaning data
+We now want to transform the data we have before we actually conduct out analysis. Some classical method for cleaning are removing unnecessary white space, stemming and stop words removal and conversion to lower or upper case. For the ones don't know, stop words removal is to eliminate some common words that have little value in the analysis e.g. `the` and `be`. Stem mining is to reduce derived words to their root form such as making `says`, `said` into `say` because they essentially have the same meanings. We do the cleaning with the help of `tm_map` which applies a function across all the documents.
+```{r}
+library(SnowballC)
+# Remove whitespace
+shakespeare <- tm_map(shakespeare, stripWhitespace, lazy=TRUE)
+# Stemming 
+shakespeare <- tm_map(shakespeare, stemDocument, lazy=TRUE)
+# Remove punctuation
+shakespeare <- tm_map(shakespeare, removePunctuation, lazy=TRUE)
+# Remove stopwords
+tm_map(shakespeare, content_transformer(removeWords), stopwords("the"), lazy=TRUE)
+# Case conversion
+tm_map(shakespeare, content_transformer(tolower), lazy = TRUE)
+```
+I think `tm` package requires us to put `lazy=TRUE` explicitly, otherwise we will get all scheduled cores encountered errors in user code` warning.
+
+## Term document matrix 
+Our data is now ready for analysis. Many algorithms operate on word frequency table and we call it term document matrix. This can easily be generated from the `Corpus` we have.
+```{r}
+dtm <- DocumentTermMatrix(shakespeare)
+```
+Essentially the frequency of a word is a representation of its importance. We have see the terms that show up more than 25 times 
+```{r}
+highFreqTerms <- findFreqTerms(dtm, 25, Inf)
+summary(highFreqTerms)
+```
+We have around two thousand terms that appear at least 25 times and the top 10 terms are 
+```{r}
+highFreqTerms[1:10]
+```
+
+We can also find the words that have a certain correlations with one word in the term document matrix. The correlation value is one if two words always appear together and it becomes zero if they never show up at the same time. We first want to see how many words have a correlation higher than 0.95 with the word love.
+```{r}
+loves_assocs <- findAssocs(dtm, "love", 0.95)
+```
+
+## Visulization
+#### Word Clound
+A nice visualization on all the words that have frequency higher than 2500.
+```{r}
+freq <- sort(colSums(as.matrix(dtm)),decreasing=TRUE)
+library(wordcloud)
+set.seed(555)
+wordcloud(names(freq), freq, min.freq=2500, max.words = 100, colors=brewer.pal(8, "Dark2"))
+```
+
+#### Word distribution
+We now see the distribution of the 50 most frequent words in a barplot.
+```{r}
+barplot(freq[1:50], xlab = "term", ylab = "frequency",  col=heat.colors(50))
+```
+
+## Data source 
+W. Shakespeare, he Complete Works of William Shakespeare, (1994).
+Gutenberg EBook: http://www.gutenberg.org/ebooks/100
+
+##References
+
+<!-- Playing with RMarkdown appearance -->
+<style type="text/css">
+body{ /* Normal  */
+   font-size: 14px;
+}
+td {  /* Table  */
+   font-size: 8px;
+}
+h1 { /* Header 1 */
+ font-size: 28px;
+ color: DarkBlue;
+}
+h2 { /* Header 2 */
+ font-size: 22px;
+ color: DarkBlue;
+ -webkit-box-shadow: 0 4px 6px -6px #222;
+ -moz-box-shadow: 0 4px 6px -6px #222;
+ box-shadow: 0 4px 6px -6px #222;
+}
+h3 { /* Header 3 */
+ font-size: 18px;
+ color: DarkBlue;
+}
+code, pre code{ /* Code block */
+  font-size: 14px;
+}
+pre { /* Code block */
+  font-size: 14px;
+  background-color: aliceblue;
+}
+</style>
