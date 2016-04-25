@@ -1,13 +1,20 @@
 ---
 title: "Chapter I Basics"
 data: "Feb 7, 2016"
-output: html_document
+output: 
+  knitrBootstrap::bootstrap_document:
+    title: "Analysis of variance: ANOVA"
+    theme: spacelab
+    highlight: github
+    theme.chooser: FALSE
+    highlight.chooser: FALSE
+    menu: FALSE
 ---
-
+# Chapter I Basics
 ## Installation 
 First you will want to get the R environment. On [this](https://cran.r-project.org/mirrors.html) website, just choose the right installation for your operating system and you are ready to go.
 
-#### IDE 
+## IDE 
 IDE (Integrated Development Environment) for R is something nice to have. Because having an IDE can save you lots of time and problems as it has many useful functions. For example, you can directly view the dataset like an excel sheet or run your R script directly from the editor.
 
 Personally I use [Rstudio](https://www.rstudio.com), and I think it is the best, but there are several other options you can choose from such as [Rattle](http://rattle.togaware.com) and [Rgedit](http://rgedit.sourceforge.net).
@@ -19,10 +26,10 @@ On the top left is the editor for your rScript. On the bottom left is the R Cons
 ## R Basics  
 Now we can start talking about the R basics and get your hands dirty. I highly suggest you follow along to get yourself more familiar with working with R because R is famous for being unfriendly to newcomers. Even some of my friends who study computer science had a difficult time getting started with R. 
 
-#### Basic Data Tyes 
+### Basic Data Tyes 
 Before we can make complex analysis using R, we want to know the elements of R just like if we want to cook a dish, we need to know about the ingredients first and then comes to recipe. In the world of R, everything has a type and there are five basic data types: 
 
-##### 1. Numeric 
+#### 1. Numeric 
 Decimals values are called numeric and it is the default data type
 ```{r, collapse=TRUE}
 x = 3.21
@@ -32,7 +39,7 @@ class(x)
 ```
 We first set x to be 3.21 and the class function tells us which datatype on object is.
 
-##### 2. Integer
+#### 2. Integer
 Integers cannot be decimals
 ```{r, collapse=TRUE}
 x = as.integer(5)
@@ -47,14 +54,14 @@ class(x)
 ```
 For the second 3.2 assignment, because we first cast it into an integer so the decimal part is truncated.
 
-##### 3. Logical
+#### 3. Logical
 ```{r, collapse=TRUE}
 a = TRUE
 b = FALSE
 a & b
 ```
 
-##### 4. Character 
+#### 4. Character 
 ```{r, collapse=TRUE}
 my_char = "Hello"
 class(my_char)

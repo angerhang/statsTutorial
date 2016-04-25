@@ -1,11 +1,18 @@
 ---
 title: "Analysis of variance: ANOVA"
-output: html_document
+output: 
+  knitrBootstrap::bootstrap_document:
+    title: "Analysis of variance: ANOVA"
+    theme: spacelab
+    highlight: github
+    theme.chooser: FALSE
+    highlight.chooser: FALSE
+    menu: FALSE
 ---
-
+# Analysis of variance: ANOVA
 While we can use linear regression to quantitatively predict our dependent variable, we can also have nominal variable as our dependent variable, for which case we are also curious about the differences among groups. This section will first cover some basic concepts of analysis of variance (ANOVA) and we will apply this technique on a few examples.
 
-#### One way ANOVA
+## One way ANOVA
 ```{r}
 group1 = c(2.3, 3.3, 3.2, 3.2, 3.2, 2.1, 2.0, 1.8, 0.4, 0.3)                
 group2 = c("Greater than 8", "Greater than 8", "Greater than 8", "Greater than 8", "Greater than 8", "Smaller than 8", "Smaller than 8", "Smaller than 8", "Smaller than 8", "Smaller than 8")
@@ -34,7 +41,7 @@ data.table1
 data.table2
 ```
 
-### Interpretations of test results
+#### Interpretations of test results
 The impact of sleep and medicine will be called `main effects` and the interaction between these two will be called `interaction effect`. To make things easier, we just apply one way ANOVA on the first table we have. 
 In real world, when our data is too big for us to grapes the characteristics, we can apply some exploratory analysis on the data set just to get a feeling. The purpose of ANOVA here is to understand if the amount of sleep that one gets has an impact on his/her wellness.
 

@@ -1,11 +1,18 @@
 ---
 title: "Data Import"
-output: html_document
+output: 
+  knitrBootstrap::bootstrap_document:
+    title: "Analysis of variance: ANOVA"
+    theme: spacelab
+    highlight: github
+    theme.chooser: FALSE
+    highlight.chooser: FALSE
+    menu: FALSE
 ---
-
+# Data import
 Data importing is important. Although it can be done easily, sometimes it does give people a headache. We will be going through a few importing methods for several common data formats and talk about issues people might encounter.
 
-#### Preparation 
+## Preparation 
 Before you import your data set, you have to make sure that the data set is in your working directory. 
 ```{r eval=FALSE}
 getwd()
@@ -22,7 +29,7 @@ setwd("~/Desktop/")
 # Set the working directory to your desktop
 ```
 
-### Import Text 
+## Import Text 
 `read.table` function is usually used for reading data in `txt` format, and again we will want to know what kind of separation symbol a file has in order to import the data without any error. If you look at [text1.txt](https://angerhang.github.io/statsWithR/src/chaper1/text1.txt) and [text2.txt](https://angerhang.github.io/statsWithR/src/chaper1/text2.txt), you will find the separation  symbol of the first one is a space but the second has `;` as the delimiter. In this case we shall import them differently:
 ```{r}
 setwd("~/angerhang.github.io/statsWithR/src/chaper1/")
@@ -36,14 +43,14 @@ When the data file does not contain a header, we should simply omit the `header`
 table3 <- read.table("text3.txt")
 ```
 
-### Import Excel 
+## Import Excel 
 There are two ways of importing an Excel with `.csv` extension, namely `read.csv()` and `read.csv2()`. The difference of these two is that for former one can properly import the Excel file that has comma `,` as the separator symbol, whereas, the latter can import the one that has semicolon `;` as the separator symbol.
 ```{r eval=FALSE}
 test_csv = read.csv("test.csv")
 test_csv = read.csv2("test.csv")
 ```
 
-### Import SPSS 
+## Import SPSS 
 When importing data in SPSS format having an extension of `sav`, we need to use the foreign package which comes with a set of commands that allows us to import data in different ways: 
 ```{r, eval=FALSE}
 # install foreign package if you don't have it
@@ -52,7 +59,7 @@ library(foreign)
 spss_data = read.spss("test", to.data.frame = TRUE)
 ```
 
-### Import SAS
+## Import SAS
 ```{r, eval=FALSE}
 library(sas7bdat)
 sas_data = read.sas7bdat("test.sas7bdat")
@@ -66,5 +73,5 @@ And remember to check the header and the numbers of rows and columns because tho
 
 
 
-### Reference
+## Reference
 Introduction to SAS.  UCLA: Statistical Consulting Group. from http://www.ats.ucla.edu/stat/r/ (accessed Feb 14, 2016).

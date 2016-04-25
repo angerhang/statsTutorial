@@ -1,17 +1,20 @@
 ---
 title: "Text Mining"
-output: html_document
-bibliography: stats.bib
-nocite: |
-  @fridolinwild2015
-  @meyer2008text
-  @yanchangzhao2015
+output: 
+  knitrBootstrap::bootstrap_document:
+    title: "Text Mining"
+    theme: spacelab
+    highlight: github
+    theme.chooser: FALSE
+    highlight.chooser: FALSE
+    menu: FALSE
 ---
+# Text Mining
 ## Overview
 More than 80% of today's data is stored in text, most of which is 
 in unstructured format as well.
 
-__Popular text sources__
+### Popular text sources
 
 * Web pages 
 * RSS Feeds
@@ -23,7 +26,7 @@ Text mining is also referred as text data mining (text analytic). It wants to ex
 information from text. It usually involves getting the data from the source, structuring the input text,
 data categorization, text clustering, sentiment analysis, document stigmatization and entity relation modeling. In this series of tutorials, we will introduce a handful of text mining packages in R to demonstrate popular techniques and the text mining infrastructure. First we provide an overview of what are the available packages that we can use.
 
-__Mainstream text mining packages__
+## Mainstream text mining packages
 
 | Package Name                                                                  |                             Description       |
 |----------------------------------------------------------------------------- |-----------------------------------------------------------------------------	|
@@ -39,7 +42,7 @@ __Mainstream text mining packages__
 Table: Text Ming Packages in R
 For a more comprehensive list, please refer to [CRAN Task View: Natural Language Processing](https://cran.r-project.org/web/views/NaturalLanguageProcessing.html)
 
-__Process and framework__
+## Process and framework
 
 ![This is a caption](miningProcess.png)
 
@@ -49,7 +52,7 @@ As illustrated in the diagram above, there exist four stages for text mining, un
 * Sept 2 cleaning data: Once we have an organized repository, we want to process the texts using techniques such as removing white spaces, and stemming procedures, and put those processed text into a structured format that is easy to compute with. A classic approach is to store the word frequency table for each document in a term-document matrix provided by `tm` package. The alternative will to use plain text character sequences for string kernel like methods.
 * Step 3 applying data mining techniques: Having the structured data, now we are free to apply data mining techniques as what we will do on other data to obtain the desired results.
 
-__Big Data with R__
+## Big Data with R
 Nowadays we are facing with more and more data, we can still use some distributed computing frameworks to tackles those challenges. If you are interested, you can refer to two other tutorials on how to use R with [Hadoop](https://github.com/angerhang/hadoopAndR) and [Spark](http://angerhang.github.io/sparkR/intro) to allow you to deal with large data sets.
 
 In the following tutorials, we will do a series of text mining tasks using some the of packages above to gain a better understanding of what we can do with text mining and how we can do text mining in R.
@@ -61,5 +64,9 @@ __Other helpful literature for text mining__
 * [Text Mining Handbook](http://www.casact.org/pubs/forum/10spforum/Francis_Flynn.pdf)
 * [Introduction to the `tm` Package: Text Mining in R](https://cran.r-project.org/web/packages/tm/vignettes/tm.pdf)
 
-##References
+## References
+Meyer, David, Kurt Hornik, and Ingo Feinerer. 2008. “Text Mining Infrastructure in R.” Journal of Statistical Software 25 (5). American Statistical Association: 1–54.
 
+Wild, Fridolin. 2015. “CRAN Task View: Natural Language Processing.” https://cran.r-project.org/web/views/NaturalLanguageProcessing.html.
+
+Zhao, Yanchang. 2015. “R and Data Mining: Examples and Case Studies.”

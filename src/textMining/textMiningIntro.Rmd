@@ -1,17 +1,21 @@
 ---
 title: "Introduction to Text Ming Package (TM)"
-output: html_document
-bibliography: stats.bib
-notice: |
-  @feinerer2015introduction
-  @meyer2008text
+output: 
+  knitrBootstrap::bootstrap_document:
+    title: "Introduction to Text Ming Package (TM)"
+    theme: spacelab
+    highlight: github
+    theme.chooser: FALSE
+    highlight.chooser: FALSE
+    menu: FALSE
 ---
+# Introduction to Text Ming Package (TM)
 In this article, we present to you the usual workflow of using text mining packages, i.e., `TM` and `wordcloud`,
 and the text mining framework. We will analyze the word frequencies from different text files and eventually create a nice
 word cloud out of the shared words across documents and visualize the distribution of the frequent words.
 
 ## Import data
-In this tutorial, we will be using [works](https://raw.githubusercontent.com/angerhang/statsTutorial/master/src/textMining/data/pg100.txt) by Shakespeare In order to have a better view of Corpus and word count matrix, we 
+In this tutorial, we will be using [works](https://raw.githubusercontent.com/angerhang/statsTutorial/master/src/textMining/data/pg100.txt) by Shakespeare. In order to have a better view of Corpus and word count matrix, we 
 divide the original text file into three and you can download them from [1.txt](https://raw.githubusercontent.com/angerhang/statsTutorial/master/src/textMining/data/1.txt), [2.txt](https://raw.githubusercontent.com/angerhang/statsTutorial/master/src/textMining/data/2.txt) and [3.txt](https://raw.githubusercontent.com/angerhang/statsTutorial/master/src/textMining/data/3.txt).
 
 Alternatively you can just run the following commands the download and store the files in a folder called `data`:
@@ -124,35 +128,6 @@ W. Shakespeare, he Complete Works of William Shakespeare, (1994).
 Gutenberg EBook: http://www.gutenberg.org/ebooks/100
 
 ##References
+Feinerer, Ingo. 2015. “Introduction to the Tm Package Text Mining in R.” 2013-12-01]. Http://www, Dainf, Ct. Utfpr, Edu. Br/-Kaestner/Min-Eracao/RDataMining/tm, Pdf.
 
-<!-- Playing with RMarkdown appearance -->
-<style type="text/css">
-body{ /* Normal  */
-   font-size: 14px;
-}
-td {  /* Table  */
-   font-size: 8px;
-}
-h1 { /* Header 1 */
- font-size: 28px;
- color: DarkBlue;
-}
-h2 { /* Header 2 */
- font-size: 22px;
- color: DarkBlue;
- -webkit-box-shadow: 0 4px 6px -6px #222;
- -moz-box-shadow: 0 4px 6px -6px #222;
- box-shadow: 0 4px 6px -6px #222;
-}
-h3 { /* Header 3 */
- font-size: 18px;
- color: DarkBlue;
-}
-code, pre code{ /* Code block */
-  font-size: 14px;
-}
-pre { /* Code block */
-  font-size: 14px;
-  background-color: aliceblue;
-}
-</style>
+Meyer, David, Kurt Hornik, and Ingo Feinerer. 2008. “Text Mining Infrastructure in R.” Journal of Statistical Software 25 (5). American Statistical 

@@ -1,10 +1,17 @@
 ---
-title: "Statistical Testing"
-output: html_document
+output: 
+  knitrBootstrap::bootstrap_document:
+    title: "Statistical Testing"
+    theme: spacelab
+    highlight: github
+    theme.chooser: FALSE
+    highlight.chooser: FALSE
+    menu: FALSE
 ---
+# Statistical Testing
 Statistical inference lets us infer the properties of the population when only a subset of the population is given. This is useful because in reality we don't typically have all the data concerning one population but we are still interested in finding out the characteristics of the whole population. Hypothesis testing is one way we use to learning about the population's characteristics.
 
-### Hypothesis Testing 
+## Hypothesis Testing 
 We can use hypothesis testing to measure the probability of a null hypothesis is true. In such a testing, we denote the null hypothesis as $\ H_0$ and the alternative hypothesis as $\ H_a$. Let's go through how to set up the hypothesis testing again before diving into the details.
 
 1. Establish a null hypothesis $\ H_0$ and an alternative hypothesis $\ H_a$.
@@ -14,7 +21,7 @@ We can use hypothesis testing to measure the probability of a null hypothesis is
 5. Computer the p value.
 6. Decide if we reject the null hypothesis or we fail to reject. We never accept a null hypothesis in a testing.
 
-### Chi-square Test for Independence 
+## Chi-square Test for Independence 
 We use Chi-square test for independence to demonstrate how we do hypothesis testing.
 ```{r}
 tutorialsOb <- matrix(c(30, 20, 20, 30), ncol = 2, byrow = TRUE)
@@ -25,7 +32,7 @@ addmargins(tutorialsOb)
 ```
 Since Chi-square test is used for testing if one variable is independent from another. We use a two way table that entails two variables `attending tutorials or not` and `grades` of the stats class. We follow the steps from last section.
 
-#### Step 1 and Step 2
+### Step 1 and Step 2
 We first formulate the null hypothesis which is attending tutorials is independent from getting good grades. So our expected observations should be like
 ```{r, echo=FALSE}
 tutorials <- matrix(c(25, 25, 25, 25), ncol = 2, byrow = TRUE)
@@ -37,7 +44,7 @@ addmargins(tutorials)
 
 We already know we should be using chi-square test. So we can skip the second step.
 
-#### Step 3 Chisquare distribution
+### Step 3 Chisquare distribution
 The degree of freedom is calculated by
 $df = (rowNumber -1) * (columnNumber - 1)$
 Just to see a few distributions of different degrees of freedom to get an idea 
@@ -51,7 +58,7 @@ visualize.chisq(stat = 0, df = 4, section = "lower")
 par(old.par)
 ```
 
-#### Step 5 calculate the probability based on the distribution 
+### Step 5 calculate the probability based on the distribution 
 We can calculate the chi-square value using 
 $${\chi}^2=\sum_{k=1}^{n} \frac{(O_k - E_k)^2}{E_k}$$
 we plug our data into the formula such that we get
@@ -66,7 +73,7 @@ test_result$expected
 test_result
 ```
 
-#### Step 6 conclusion
+### Step 6 conclusion
 Since we p value is smaller than our significance level, we can reject the null hypothesis can conclude that attending the tutorials has an influence on the grades that people get.
 
 
