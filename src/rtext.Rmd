@@ -1,0 +1,83 @@
+---
+title: "RText"
+output: 
+  knitrBootstrap::bootstrap_document:
+    title: "RText"
+    theme: spacelab
+    highlight: github
+    theme.chooser: FALSE
+    highlight.chooser: FALSE
+    menu: FALSE
+---
+# Supervised Learning for Text Classification (RText)
+Hand labeling texts based on topic, tone or other variables of a data set have contributed to many different areas of social sciences however, this "manual coding" process is highly time consuming, and therefore, with the help of machine learning techniques, we can save lots of time. `RTextTools` is originally designed for social scientists as a start-to-finish product within a few steps, whilst more advanced users can also use this to do fast prototypes. `RTextToolss` come with nice algorithms, svm, slda, boosting, bagging, random forests, glmnet, decision trees, neural networks, and maximum entropy.
+
+## Processing procedure 
+* Generate document term matrix
+* Create a container object
+* Train the classifier
+* Classify the data
+* Summarize the classification
+* Evaluate performance
+* output the data
+
+We now install the package and load it into our environment:
+```{r}
+# install.packages("RTextTools")
+library('RTextTools')
+```
+
+### Create a matrix
+Here we make use of `USCongress` data set, one can also load data sets of other formats using `read_data()` and reprocess them using the tools from `tm`. Our data set contains labeled bills from the United States Congress. We are primarily interested in two variables, `major`, a manually labeled topic code corresponding to the subject of the bill and `text`, the exact content of the bill.
+```{r}
+data("USCongress")
+str(USCongress)
+```
+
+We create a document term matrix and set the `stemWords` option to be true which essentially make the terms alike into one. An example will be "happy", "happily" and "happiness" will all become "happiness" in the end because they have the same meanings. Also we set remove some sparse terms to reduce the document size.
+```{r}
+my_matrix <- create_matrix(USCongress$text, language = "english", stemWords = TRUE, 
+                           removeSparseTerms = .999, removeNumbers = TRUE)
+```
+
+### Generate a container
+We now want to put the training and testing objects in a container of class `matrix_container` via:
+```{r}
+my_container <- create_container(my_matrix, USCongress$major, trainSize = 1:4000,
+                                 testSize = 4001:4449, virgin = FALSE)
+```
+From now on, the container can be passed to any subsequent function for our classifier.
+
+
+### Training the classifer
+Training the model is fairly straightforward and again we can choose up to 9 different algorithms by specifying the algorithm argument. Here we train the model using SVM and neural network.
+```{r}
+my_svm <- train_model(my_container, algorithm = "SVM")
+# my_boost <- train_model(my_container, algorithm = "BOOSTING")
+```
+
+### Makeing predictions using the trained models
+Similar to the training, classifying can be done via:
+```{r}
+svm_predictions <- classify_model(my_container, model = my_svm)
+# boost_predictions <- classify_model(my_container, my_boost)
+```
+
+### Analytics
+We can use `create_analytics()` to know more about the models and we are given the summaries by label, by algorithm, by document and an ensemble summary.
+```{r}
+analytics <- create_analytics(my_container, cbind(svm_predictions))
+summary(analytics)
+```
+
+### Better accuracy using ensemble 
+A good way of improving the accuracy is to use a multiple algorithms at the same time and see if the number of algorithms have the same predictions exceeds a threshold.
+
+### Corss validation
+An easy n-fold validation can be conducted. We use a 5-fold cross validation in the example:
+```{r}
+SVM <- cross_validate(my_container, 5, "SVM")
+```
+## References
+Jurka, Timothy P., Loren Collingwood, and Amber E. Boydstun. "RTextTools: A Supervised Learning Package for Text Classification." Journal.r-project. The R Journal, June 2013. Web. 15 May 2016. 
+
