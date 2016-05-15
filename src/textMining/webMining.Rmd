@@ -1,0 +1,69 @@
+---
+output: 
+  knitrBootstrap::bootstrap_document:
+    title: "Webmining"
+    theme: spacelab
+    highlight: github
+    theme.chooser: FALSE
+    highlight.chooser: FALSE
+    menu: FALSE
+---
+# Webmining with Tm Plugin Webmining
+The internet is rife with useful information that we would like to analyze. During the previous tutorials, we used `twitteR` to retrieve text from social media, and for this tutorial, we will use `tm.plugin.webmining` to get hold of more web sources e.g., XML, HTML and JSON. In addition, the `webmining` plugin also supports content retrieval from various news sites, namely, Google News, Yahoo News and more. Generally speaking the retrieval occurs in two separate steps:
+
+* Download the meta data.
+* Download the source content.
+
+## Installtion
+```{r, eval=FALSE}
+install.packages('tm')
+install.packages('tm.plugin.webmining')
+```
+`tm.plugin.webming` apparently depends on the `tml` package, `RCurl` for retrieval and `XML` for extraction.
+
+## Intro
+```{r}
+library(tm)
+library(tm.plugin.webmining)
+```
+After loading these two packages, all the methods we need will be made available. Similar to the `tm` package, the retried sources can be stored in `Corpus` so that they can be analyzed using other functions in `tm`. You can have a quick glimpse through what `tm` does in the [Introduction to Text Ming Package](http://angerhang.github.io/statsWithR/tutorials/textMiningIntro.html). The are several already made methods that allow us to get content from the web. 
+```{r}
+londonNews <- WebCorpus(GoogleNewsSource('London'))
+class(londonNews)
+```
+As you can see, `WebCorpus`is derived from the `Corpus` with additional methods and meta data.
+```{r}
+londonNews
+```
+
+```{r}
+meta(londonNews[[1]])
+```
+Each document in the `Corpus` has useful information such as author, datetimestamp and description.
+```{r}
+londonNews[[1]]$content
+```
+One can also use `GoogleFinanceSource`, `NYTimesSource`, `YahooFinanceSource`, `YahooInplaySource` and `YahooNewsSource` for content retrial.
+
+## Update Corpus
+Because for each query, we are only download 20-100 feeds, that's not enough text mining purposes. We can use `corpus.update` that continuously update our query, which has been efficiently implemented. It first checks the meta data to see if a document has already been downloaded, and then download the actual content accordingly.
+```{r, eval=FALSE}
+londonNews <- corpus.update(londonNews)
+```
+
+## Retrive from HTML
+From the above procedure, one already gain access to an ample amount of information, whilst getting the content from a plain HTML file is also important. 
+```{r}
+climateArc <- extractContentDOM("http://www.economist.com/news/science-and-technology/21698641-new-way-understand-behaviour-ice-sheets-good-vibrations",0.5,FALSE)
+```
+There is also a simple `trimWhiteSpaces` method which transforms our text file similarly as `stripWhiteSpace`.
+```{r}
+climateArc <- trimWhiteSpaces(climateArc)
+```
+
+## Final remarks
+The use of `tm.plugin.webming` is fairly easy but it gives us an abundant source of information as we can almost find anything on the internet don't we. After the retrial, we can make use of the methods in `tm` so that our data can be properly handled.
+
+## References
+Annau, M. (2015, May 11). Package ‘tm.plugin.webmining’. Retrieved May 15, 2016, from https://cran.r-project.org/web/packages/tm.plugin.webmining/tm.plugin.webmining.pdf
+
