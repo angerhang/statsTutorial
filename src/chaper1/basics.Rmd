@@ -26,7 +26,7 @@ On the top left is the editor for your rScript. On the bottom left is the R Cons
 ## R Basics  
 Now we can start talking about the R basics and get your hands dirty. I highly suggest you follow along to get yourself more familiar with working with R because R is famous for being unfriendly to newcomers. Even some of my friends who study computer science had a difficult time getting started with R. 
 
-### Basic Data Tyes 
+### Basic Data Types 
 Before we can make complex analysis using R, we want to know the elements of R just like if we want to cook a dish, we need to know about the ingredients first and then comes to recipe. In the world of R, everything has a type and there are five basic data types: 
 
 #### 1. Numeric 
