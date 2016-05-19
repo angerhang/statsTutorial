@@ -871,19 +871,19 @@ Analysis of variance: ANOVA
 <div class="container">
 <div class="row row-offcanvas row-offcanvas-right">
 <div class="contents col-xs-12 col-md-10">
-<h1>Chapter I Basics</h1>
-<h2>Installation</h2>
+<h1 id="chapter-i-basics">Chapter I Basics</h1>
+<h2 id="installation">Installation</h2>
 <p>First you will want to get the R environment. On <a href="https://cran.r-project.org/mirrors.html">this</a> website, just choose the right installation for your operating system and you are ready to go.</p>
-<h2>IDE</h2>
+<h2 id="ide">IDE</h2>
 <p>IDE (Integrated Development Environment) for R is something nice to have. Because having an IDE can save you lots of time and problems as it has many useful functions. For example, you can directly view the dataset like an excel sheet or run your R script directly from the editor.</p>
 <p>Personally I use <a href="https://www.rstudio.com">Rstudio</a>, and I think it is the best, but there are several other options you can choose from such as <a href="http://rattle.togaware.com">Rattle</a> and <a href="http://rgedit.sourceforge.net">Rgedit</a>.</p>
 <p><img src="rStudio.png" alt="rStudio" /></p>
 <p>On the top left is the editor for your rScript. On the bottom left is the R Console where you can run the script. On the top right is a list of variables and environment values and on the bottom right is your current directory. If you want to run any particular segment of your R script, you can just highlight that segment and click the run bottom on the top, so that it will be run in your console.</p>
-<h2>R Basics</h2>
+<h2 id="r-basics">R Basics</h2>
 <p>Now we can start talking about the R basics and get your hands dirty. I highly suggest you follow along to get yourself more familiar with working with R because R is famous for being unfriendly to newcomers. Even some of my friends who study computer science had a difficult time getting started with R.</p>
-<h3>Basic Data Tyes</h3>
+<h3 id="basic-data-types">Basic Data Types</h3>
 <p>Before we can make complex analysis using R, we want to know the elements of R just like if we want to cook a dish, we need to know about the ingredients first and then comes to recipe. In the world of R, everything has a type and there are five basic data types:</p>
-<h4>1. Numeric</h4>
+<h4 id="numeric">1. Numeric</h4>
 Decimals values are called numeric and it is the default data type
 <div class="row">
 <button class="source R toggle btn btn-xs btn-primary">
@@ -908,7 +908,7 @@ class(x)</code></pre>
 </code></pre>
 </div>
 <p>We first set x to be 3.21 and the class function tells us which datatype on object is.</p>
-<h4>2. Integer</h4>
+<h4 id="integer">2. Integer</h4>
 Integers cannot be decimals
 <div class="row">
 <button class="source R toggle btn btn-xs btn-primary">
@@ -954,7 +954,7 @@ x</code></pre>
 </code></pre>
 </div>
 <p>For the second 3.2 assignment, because we first cast it into an integer so the decimal part is truncated.</p>
-<h4>3. Logical</h4>
+<h4 id="logical">3. Logical</h4>
 <div class="row">
 <button class="source R toggle btn btn-xs btn-primary">
 <span class="glyphicon glyphicon-chevron-down"></span> R source
@@ -968,7 +968,7 @@ a & b</code></pre>
 <pre style=""><code class="output r">## [1] FALSE
 </code></pre>
 </div>
-<h4>4. Character</h4>
+<h4 id="character">4. Character</h4>
 <div class="row">
 <button class="source R toggle btn btn-xs btn-primary">
 <span class="glyphicon glyphicon-chevron-down"></span> R source
@@ -992,7 +992,7 @@ class(numAsChar)</code></pre>
 </code></pre>
 </div>
 <p>After knowing most of the basic datatypes, we can move one step forward.</p>
-<h4>Dataframe</h4>
+<h4 id="dataframe">Dataframe</h4>
 <p>You may be wondering how those things are going to help me analyze data, and why do we need those datatypes at all? I hope you will find your answers as we progress. You know, having just one variable is boring, can we create a list of them? Yes we can by using vector and later you will find out how to can put multiple vectors together to create a dataframe which is essentially our dataset.</p>
 Creating a vector is simple you just need to use the c(...) command.
 <div class="row">
@@ -1031,7 +1031,7 @@ df</code></pre>
 </code></pre>
 </div>
 <p>First we have a vector of programming languages, then we have a vector of numeric that entail when each language was created, in the end we give some of our opinions about each language. Hence, we can put those vectors into one big chunk, the dataframe. The layout of the dataframe looks like something we see in data analysis project.</p>
-Having learning the R basics and the some essential foundation of R, in the next chapter we can finally start exploring the true power of R by doing some exploratory analysis and find out the correlation between different variables in our data frame.
+<p>Having learning the R basics and the some essential foundation of R, in the next chapter we can finally start exploring the true power of R by doing some exploratory analysis and find out the correlation between different variables in our data frame.</p>
 </div>
 </div>
 </div>
