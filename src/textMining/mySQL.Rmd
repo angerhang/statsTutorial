@@ -1,0 +1,97 @@
+---
+output: 
+  knitrBootstrap::bootstrap_document:
+    title: "RMySQL"
+    theme: spacelab
+    highlight: github
+    theme.chooser: FALSE
+    highlight.chooser: FALSE
+    menu: FALSE
+---
+# RMySQL
+## Intall RMySQL
+`RMySQL` is an easy interface between R and MySQL with the database interface definition implemented in package [DBI](https://cran.r-project.org/web/packages/DBI/index.html) To get hold of if, just do
+```{r, eval=FALSE}
+install.packages("RMySQL")
+library(RMySQL)
+```
+
+## Install MySQL 
+If you wish to install MySQL, go to [here](http://dev.mysql.com/downloads/mysql/) to find the appropriate version for your machine. The latest version would require you to keep the password after installation otherwise you will need to reset the password as the root. If you install `MySQL` using from `.dmg` then it is the best to add `MySQL` to your path so you don't have to go to the installation directory every time.
+```
+export PAHT=$PATH:/user/local/mysql/bin
+```
+add the above line to whichever shell profile you use e.g. `~/.bash_profile`, and/or `~/.bashrc`.
+
+## Mini example
+
+### Connect to MySQL databases
+We can connect to the databases in two ways, using `dbConnect`:
+
+* provide `dbConnect` with explicit database arguments such as user, password, and database name
+* provide `dbConnect` only with a group name in `~/.my.cnf`, which connects to the database using the authentication parameters directory. We should favor the latter approach.
+```{r, warning=FALSE}
+library(DBI)
+library(RMySQL)
+con <- dbConnect(RMySQL::MySQL(), dbName="mysql")
+```
+
+### .my.cnf file
+`*.cnf` files are start-up options files that most MySQL programs use to specify options so that we don't have to enter them explicitly. Each section consists of the sections names in the square brackets, options names and their values. Each time a connection is establish the client and rs-dbi sections are called. You don't have to supply the same option twice if you don't intend to change the value of that argument. If the same option appears twice the second value will be used. 
+```
+[client]
+user = root
+password = password
+host = localhost
+
+[rs-dbi]
+database = s-data
+
+[test]
+databse = mysql
+```
+The example above has two groups, the default `rs-dbi` group and the `test` group. Similar to how we do the connection above we can just
+```
+con2 <- dbConnect(RMySQL::MySQL(), group="test")
+```
+
+### List tables and fileds
+```{r}
+dbListTables(con)
+dbListFields(con, "user")
+```
+### Import and export data frames
+We first import the users to a data frame and write to write to the database from a data frame
+```{r, warning=FALSE}
+users <- dbReadTable(con, "user")
+class(users)
+```
+```{r, eval=FALSE}
+dbWriteTable(con, "newUsers", users)
+```
+
+### Run SQL statements and see the outputs
+Just like how one would run an SQL statement from the terminal:
+```{r, warning=FALSE}
+myUsers <- dbGetQuery(con, "select * from user")
+```
+
+### Get meta-info on the connections
+There are various methods available for the database connections. We first can give an overview of the current database and connection and then we can get other information on the query request we that we send:
+```{r, warning=FALSE}
+summary(MySQL(), verbose = TRUE)
+summary(con, verbose = TRUE)
+
+rs <- dbSendQuery(con, "SELECT * FROM user WHERE User like 'root'")
+dbHasCompleted(rs)
+dbGetStatement(rs)
+dbGetInfo(rs)
+dbClearResult(rs)
+```
+
+### Close the connection
+Always remember to cleanup by disconnecting the database
+```{r}
+dbDisconnect(con)
+```
+
