@@ -70,6 +70,24 @@ class(numAsChar)
 ```
 After knowing most of the basic datatypes, we can move one step forward.
 
+#### 5. Vector 
+```{r}
+v <- c("a", "b", "c", "d", "e")
+```
+
+Use index to do subsetting:
+```{r}
+v[2:4]
+v[3:length(v)]
+```
+
+We can also use logical values to do subsettings:
+```{r}
+k = v == "c"
+v[k]
+```
+
+
 #### Dataframe 
 You may be wondering how those things are going to help me analyze data, and why do we need those datatypes at all? I hope you will find your answers as we progress. You know, having just one variable is boring, can we create a list of them? Yes we can by using vector and later you will find out how to can put multiple vectors together to create a dataframe which is essentially our dataset.
 
@@ -94,4 +112,27 @@ df
 First we have a vector of programming languages, then we have a vector of numeric that entail when each language was created, in the end we give some of our opinions about each language. Hence, we can put those vectors into one big chunk, the dataframe. The layout of the dataframe looks like something we see in data analysis project. 
 
 Having learning the R basics and the some essential foundation of R, in the next chapter we can finally start exploring the true power of R by doing some exploratory analysis and find out the correlation between different variables in our data frame.
+
+### Exercies 
+#### Exercies I
+Note: Use *typeof* function to find out the solution.
+What are of the types of following variables:
+
+```{r}
+a = 1.0 + 2.0
+b = 1.0 + 2
+c = 1 + 2.0 
+d = 1 + 2
+e = 3.0 / 2
+f = 3 / 2.0
+```
+
+#### Problem II
+Note: Use *typeof* or *class* function to find out the solution.
+What are of the types of variable School and Composition and why?:
+
+```{r}
+library(MASS)
+head(painters)
+```
 
