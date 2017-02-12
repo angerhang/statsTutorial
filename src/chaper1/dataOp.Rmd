@@ -1,0 +1,82 @@
+---
+title: "Chapter I Basics"
+data: "Feb 7, 2016"
+output: 
+  knitrBootstrap::bootstrap_document:
+    title: "Analysis of variance: ANOVA"
+    theme: spacelab
+    highlight: github
+    theme.chooser: FALSE
+    highlight.chooser: FALSE
+    menu: FALSE
+---
+# Chapter I Data frame operations and plotting
+## Data frame operations
+Data is one of the most fundamental data structures in R. We will need to be friend with it. When given the GDP data for different countries, you might probably want to only look at the countries from Asia or Africa, or you might want to compare the GDP differences between developed countries and the developing ones. In order to do so, you will need to understand how to select your data based on a certain condition and in the later session, you might want to know how to merge one data set with another in the way that you want. We now learn how to select a part of the data frame given some conditions and this is often called subletting.
+
+### Subseting using index
+Let's use a built-in data set for the operations *mtcars*. We first have a peek of what the data looks like
+```{r}
+library(MASS)
+head(Aids2)
+summary(Aids2)
+```
+#### Selecting a single value
+*[a,b]* is what we use to subset. a represents the row number and b represents the column number.
+```{r}
+Aids2[1,1]
+Aids2[1,2]
+```
+
+#### Select a list of values
+*1:5* will give us `r 1:5` and we are going to make use of this to select a list of values:
+```{r}
+Aids2[1, 1:5]
+Aids2[1:5, 1:6]
+```
+
+### Subsetting using names 
+For a data frame, we usually have column names and row names:
+```{r, eval=FALSE, include=FALSE}
+colnames(Aids2)
+rownames(Aids2)
+```
+
+We can get the sex columns using two methods:
+```{r, eval=FALSE, include=FALSE}
+Aids2[, 2]
+Aids2[, "sex"]
+```
+
+### Subsetting using conditions 
+What if we want to look at the rows whose age is greater than 40. We can simply apply our conditional statement on age:
+```{r, eval=TRUE, fig.height=2}
+options(max.print= 50)
+Aids2$age > 40
+```
+Then we know logical vectors can select the values we need, and it suffices to do 
+```{r}
+Aids2[Aids2$age > 40, ]
+```
+
+## Plotting 
+Here we will do a few simple plottings:
+```{r}
+boxplot(Aids2$age)
+```
+
+```{r}
+hist(Aids2$age)
+```
+
+```{r}
+dens <- density(Aids2$age)
+plot(dens)
+```
+
+Then often we will combine our plotting with subsetting to get the wanted analysis. For example, we want to know the sex distribution of people who are over 40. We first do a subsetting and then plot the distribution:
+```{r}
+fortyPlus <- Aids2[Aids2$age > 40, ]
+plot(fortyPlus$sex)
+```
+
